@@ -69,6 +69,9 @@ void loop() {
 //  }
 
   while (ps5.isConnected() == true) {
+    uint8_t buttons, funcButtons;
+    //if (ps5.LatestPacket()) Serial.println((char*)(ps5.data.latestPacket));
+    /*
     if (ps5.Right()) Serial.println("Right Button");
     if (ps5.Down()) Serial.println("Down Button");
     if (ps5.Up()) Serial.println("Up Button");
@@ -79,6 +82,10 @@ void loop() {
     if (ps5.Circle()) Serial.println("Circle Button");
     if (ps5.Triangle()) Serial.println("Triangle Button");
 
+    */
+    buttons = (ps5.Right() << 7) | (ps5.Down() << 6) | (ps5.Up() << 5) | (ps5.Left() << 4) | (ps5.Square() << 3) | (ps5.Cross() << 2) | (ps5.Circle() << 1) | ps5.Triangle();
+
+    /*
     if (ps5.UpRight()) Serial.println("Up Right");
     if (ps5.DownRight()) Serial.println("Down Right");
     if (ps5.UpLeft()) Serial.println("Up Left");
@@ -94,7 +101,10 @@ void loop() {
 
     if (ps5.PSButton()) Serial.println("PS Button");
     if (ps5.Touchpad()) Serial.println("Touch Pad Button");
+    */
 
+    funcButtons = (ps5.L1() << 7) | (ps5.R1() << 6) | (ps5.L3() << 5 ) | (ps5.R3() << 4) | (ps5.Share() << 3) | (ps5.Options() << 2) | (ps5.Touchpad() << 1)| ps5.PSButton();
+  /*
     if (ps5.L2()) {
       Serial.printf("L2 button at %d\n", ps5.L2Value());
     }
@@ -114,8 +124,18 @@ void loop() {
     if (ps5.RStickY()) {
       Serial.printf("Right Stick y at %d\n", ps5.RStickY());
     }
+*/
 
-    Serial.println();
+    
+    uint64_t message = (buttons << 56) | (funcButtons << 48) | (ps5.L2Value() << 40) | (ps5.R2Value() << 32) | (ps5.LStickX() << 24) | (ps5.LStickY() << 16) | (ps5.RStickX() << 8) | ps5.RStickY();
+
+    char test[8];
+
+    sprintf(test, "%d", buttons);
+
+    Serial.println(message);
+
+    //Serial.println();
     // This delay is to make the output more human readable
     // Remove it when you're not trying to see the output
     delay(300);
