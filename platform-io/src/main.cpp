@@ -3,26 +3,38 @@
 
 struct DualSenseSensors
 {
-  uint8_t buttons, funcButtons, L2, R2, LStickX, LStickY, RStickX, RStickY;
-  uint8_t buttonsID, funcButtonsID, L2ID, R2ID, LStickXID, LStickYID, RStickXID, RStickYID;
+  uint8_t buttons, funcButtons, L2, R2, LStickX, LStickY, RStickX, RStickY,
+          rightID, downID, upID, leftID, squareID, crossID, circleID, triangleID,
+          l1ID, r1ID, l3ID, r3ID;
   uint8_t* message;
   int messageSize;
 
   DualSenseSensors() {
-    buttonsID = 0;
-    funcButtonsID = 1;
-    L2ID = 2;
-    R2ID = 3;
-    LStickXID = 4;
-    LStickYID = 5;
-    RStickXID = 6;
-    RStickYID = 7;
+    rightID = 7;
+    downID = 6;
+    upID = 5;
+    leftID = 4;
+    squareID = 3;
+    crossID = 2;
+    circleID = 1;
+    triangleID = 0;
+
+    l1ID = 7;
+    r1ID = 6;
+    l3ID = 5;
+    r3ID = 4;
   }
 
   void getMeasurements()
   {
-    buttons = (ps5.Right() << 7) | (ps5.Down() << 6) | (ps5.Up() << 5) | (ps5.Left() << 4) | (ps5.Square() << 3) | (ps5.Cross() << 2) | (ps5.Circle() << 1) | ps5.Triangle();
-    funcButtons = (ps5.L1() << 7) | (ps5.R1() << 6) | (ps5.L3() << 5) | (ps5.R3() << 4) | (ps5.Share() << 3) | (ps5.Options() << 2) | (ps5.Touchpad() << 1) | ps5.PSButton();
+    // digital
+    buttons = (ps5.Right() << rightID) | (ps5.Down() << downID) | (ps5.Up() << upID) | (ps5.Left() << leftID) |
+              (ps5.Square() << squareID) | (ps5.Cross() << crossID) | (ps5.Circle() << circleID) | (ps5.Triangle() << triangleID);
+
+    funcButtons = (ps5.L1() << l1ID) | (ps5.R1() << r1ID) | (ps5.L3() << l3ID) | (ps5.R3() << r3ID) |
+                  (ps5.Share() << 3) | (ps5.Options() << 2) | (ps5.Touchpad() << 1) | ps5.PSButton();
+
+    // analog
     L2 = ps5.L2Value();
     R2 = ps5.R2Value();
     LStickX = (uint8_t)ps5.LStickX();
@@ -34,17 +46,14 @@ struct DualSenseSensors
   void getFullMessage() {
     message = new uint8_t[8];
 
-    // digital
-    message[buttonsID] = buttons;
-    message[funcButtonsID] = funcButtons;
-
-    // analog
-    message[L2ID] = L2;
-    message[R2ID] = R2;
-    message[LStickXID] = LStickX;
-    message[LStickYID] = LStickY;
-    message[RStickXID] = RStickX;
-    message[RStickYID] = RStickY;
+    message[0] = buttons;
+    message[1] = funcButtons;
+    message[2] = L2;
+    message[3] = R2;
+    message[4] = LStickX;
+    message[5] = LStickY;
+    message[6] = RStickX;
+    message[7] = RStickY;
 
     messageSize = 8;
   }
@@ -52,6 +61,8 @@ struct DualSenseSensors
   void sendMessage() {
     if (message != nullptr)
       Serial.write(message, messageSize);
+
+    freeMessage();
   }
 
   void freeMessage() {
@@ -75,8 +86,7 @@ void setup()
 
 void loop()
 {
-  while (ps5.isConnected())
-  {
+  while (ps5.isConnected()) {
     dsSensors.getMeasurements();
     dsSensors.getFullMessage();
     dsSensors.sendMessage();
