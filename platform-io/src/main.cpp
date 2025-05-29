@@ -91,6 +91,6 @@ void loop()
     dsSensors.getFullMessage();
     dsSensors.sendMessage();
 
-    delay(5000);
+    delay(50);
   }
 }

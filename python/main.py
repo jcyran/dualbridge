@@ -1,6 +1,10 @@
+import datetime
+
 import serial
 import vgamepad as vg
+import db
 import time
+import sqlite3
 
 class ControllerData:
     def __init__(self):
@@ -54,12 +58,13 @@ class ControllerData:
         self.touchpad = (data[1] & 0b00000010) > 0
         self.ps_button = (data[1] & 0b00000001) > 0
 
-        self.L2 = int(data[2])
-        self.R2 = int(data[3])
-        self.l_stick_x = int(data[4])
-        self.l_stick_y = int(data[5])
-        self.r_stick_x = int(data[6])
-        self.r_stick_y = int(data[7])
+        self.L2 = int(data[2])+2**32
+        self.R2 = int(data[3])+2**32
+
+        self.l_stick_x = int((int(data[4]) * 32767) / 127)
+        self.l_stick_y = int((int(data[5]) * 32767) / 127)
+        self.r_stick_x = int((int(data[6]) * 32767) / 127)
+        self.r_stick_y = int((int(data[7]) * 32767) / 127)
 
     def emulate(self):
         if self.right:
@@ -80,7 +85,7 @@ class ControllerData:
         if self.left:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_LEFT)
         else:
-            self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_RIGHT)
+            self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_LEFT)
 
         if self.square:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_X)
@@ -137,13 +142,23 @@ class ControllerData:
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_GUIDE)
 
-        # add analogs
+        self.gamepad.left_trigger(self.L2)
+        self.gamepad.right_trigger(self.R2)
+        self.gamepad.left_joystick(self.l_stick_x, self.l_stick_y)
+        self.gamepad.right_joystick(self.r_stick_x, self.r_stick_y)
 
         self.gamepad.update()
 
 
 # Initialization
-ser = serial.Serial('COM3', 115200)
+
+db.connect("button_stats.db")
+db.create_database()
+db.update_button("Cross")
+
+
+
+ser = serial.Serial('COM4', 115200)
 controller = ControllerData()
 
 time.sleep(2)
@@ -178,15 +193,15 @@ try:
         except ValueError:
             print("Invalid data received")
 
-        print("Buttons:", x[0])
-        print("Functional Buttons:", x[1])
-        print("L2:", x[2])
-        print("R2:", x[3])
-        print("L Stick X axis:", x[4])
-        print("L Stick Y axis:", x[5])
-        print("R Stick X axis:", x[6])
-        print("R Stick Y axis:", x[7])
-        print()
+        # print("Buttons:", x[0])
+        # print("Functional Buttons:", x[1])
+        # print("L2:", x[2])
+        # print("R2:", x[3])
+        # print("L Stick X axis:", x[4])
+        # print("L Stick Y axis:", x[5])
+        # print("R Stick X axis:", x[6])
+        # print("R Stick Y axis:", x[7])
+        # print()
 except KeyboardInterrupt:
     print("\nStopping...")
 except serial.SerialException as e:
