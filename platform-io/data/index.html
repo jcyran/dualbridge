@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS5 DualSense Button Mapper</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { text-align: center; }
+        form { max-width: 400px; margin: auto; }
+        .mapping { display: flex; justify-content: space-between; margin: 10px 0; }
+        label { font-weight: bold; }
+        select { padding: 5px; width: 150px; }
+        button { padding: 10px; width: 100%; background-color: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>PS5 DualSense Button Mapper</h1>
+    <form id="buttonForm" method="POST">
+        <div class="mapping">
+            <label>D-Pad Right:</label>
+            <select name="D-Pad_Right">
+                <option value="None">None</option>
+                <option value="D-Pad_Right" selected>D-Pad Right</option>
+                <option value="D-Pad_Down">D-Pad Down</option>
+                <option value="D-Pad_Up">D-Pad Up</option>
+                <option value="D-Pad_Left">D-Pad Left</option>
+                <option value="Square">Square</option>
+                <option value="Cross">Cross</option>
+                <option value="Circle">Circle</option>
+                <option value="Triangle">Triangle</option>
+                <option value="L1">L1</option>
+                <option value="R1">R1</option>
+                <option value="L3">L3</option>
+                <option value="R3">R3</option>
+            </select>
+        </div>
+        <div class="mapping">
+            <label>D-Pad Down:</label>
+            <select name="D-Pad_Down">
+                <option value="None">None</option>
+                <option value="D-Pad_Right">D-Pad Right</option>
+                <option value="D-Pad_Down" selected>D-Pad Down</option>
+                <option value="D-Pad_Up">D-Pad Up</option>
+                <option value="D-Pad_Left">D-Pad Left</option>
+                <option value="Square">Square</option>
+                <option value="Cross">Cross</option>
+                <option value="Circle">Circle</option>
+                <option value="Triangle">Triangle</option>
+                <option value="L1">L1</option>
+                <option value="R1">R1</option>
+                <option value="L3">L3</option>
+                <option value="R3">R3</option>
+            </select>
+        </div>
+        <div class="mapping">
+            <label>D-Pad Up:</label>
+            <select name="D-Pad_Up">
+                <option value="None">None</option>
+                <option value="D-Pad_Right">D-Pad Right</option>
+                <option value="D-Pad_Down">D-Pad Down</option>
+                <option value="D-Pad_Up" selected>D-Pad Up</option>
+                <option value="D-Pad_Left">D-Pad Left</option>
+                <option value="Square">Square</option>
+                <option value="Cross">Cross</option>
+                <option value="Circle">Circle</option>
+                <option value="Triangle">Triangle</option>
+                <option value="L1">L1</option>
+                <option value="R1">R1</option>
+                <option value="L3">L3</option>
+                <option value="R3">R3</option>
+            </select>
+        </div>
+        <div class="mapping">
+            <label>D-Pad Left:</label>
+            <select name="D-Pad_Left">
+                <option value="None">None</option>
+                <option value="D-Pad_Right">D-Pad Right</option>
+                <option value="D-Pad_Down">D-Pad Down</option>
+                <option value="D-Pad_Up">D-Pad Up</option>
+                <option value="D-Pad_Left" selected>D-Pad Left</option>
+                <option value="Square">Square</option>
+                <option value="Cross">Cross</option>
+                <option value="Circle">Circle</option>
+                <option value="Triangle">Triangle</option>
+                <option value="L1">L1</option>
+                <option value="R1">R1</option>
+                <option value="L3">L3</option>
+                <option value="R3">R3</option>
+            </select>
+        </div>
+        <div class="mapping">
+            <label>Square:</label>
+            <select name="Square">
+                <option value="None">None</option>
+                <option value="D-Pad_Right">D-Pad Right</option>
+                <option value="D-Pad_Down">D-Pad Down</option>
+                <option value="D-Pad_Up">D-Pad Up</option>
+                <option value="D-Pad_Left">D-Pad Left</option>
+                <option value="Square" selected>Square</option>
+                <option value="Cross">Cross</option>
+                <option value="Circle">Circle</option>
+                <option value="Triangle">Triangle</option>
+                <option value="L1">L1</option>
+                <option value="R1">R1</option>
+                <option value="L3">L3</option>
+                <option value="R3">R3</option>
+            </select>
+        </div>
+        <div class="mapping">
+            <label>Cross:</label>
+            <select name="Cross">
+                <option value="None">None</option>
+                <option value="D-Pad_Right">D-Pad Right</option>
+                <option value="D-Pad_Down">D-Pad Down</option>
+                <option value="D-Pad_Up">D-Pad Up</option>
+                <option value="D-Pad_Left">D-Pad Left</option>
+                <option value="Square">Square</option>
+                <option value="Cross" selected>Cross</option>
+                <option value="Circle">Circle</option>
+                <option value="Triangle">Triangle</option>
+                <option value="L1">L1</option>
+                <option value="R1">R1</option>
+                <option value="L3">L3</option>
+                <option value="R3">R3</option>
+            </select>
+        </div>
+        <div class="mapping">
+            <label>Circle:</label>
+            <select name="Circle">
+                <option value="None">None</option>
+                <option value="D-Pad_Right">D-Pad Right</option>
+                <option value="D-Pad_Down">D-Pad Down</option>
+                <option value="D-Pad_Up">D-Pad Up</option>
+                <option value="D-Pad_Left">D-Pad Left</option>
+                <option value="Square">Square</option>
+                <option value="Cross">Cross</option>
+                <option value="Circle" selected>Circle</option>
+                <option value="Triangle">Triangle</option>
+                <option value="L1">L1</option>
+                <option value="R1">R1</option>
+                <option value="L3">L3</option>
+                <option value="R3">R3</option>
+            </select>
+        </div>
+        <div class="mapping">
+            <label>Triangle:</label>
+            <select name="Triangle">
+                <option value="None">None</option>
+                <option value="D-Pad_Right">D-Pad Right</option>
+                <option value="D-Pad_Down">D-Pad Down</option>
+                <option value="D-Pad_Up">D-Pad Up</option>
+                <option value="D-Pad_Left">D-Pad Left</option>
+                <option value="Square">Square</option>
+                <option value="Cross">Cross</option>
+                <option value="Circle">Circle</option>
+                <option value="Triangle" selected>Triangle</option>
+                <option value="L1">L1</option>
+                <option value="R1">R1</option>
+                <option value="L3">L3</option>
+                <option value="R3">R3</option>
+            </select>
+        </div>
+        <div class="mapping">
+            <label>L1:</label>
+            <select name="L1">
+                <option value="None">None</option>
+                <option value="D-Pad_Right">D-Pad Right</option>
+                <option value="D-Pad_Down">D-Pad Down</option>
+                <option value="D-Pad_Up">D-Pad Up</option>
+                <option value="D-Pad_Left">D-Pad Left</option>
+                <option value="Square">Square</option>
+                <option value="Cross">Cross</option>
+                <option value="Circle">Circle</option>
+                <option value="Triangle">Triangle</option>
+                <option value="L1" selected>L1</option>
+                <option value="R1">R1</option>
+                <option value="L3">L3</option>
+                <option value="R3">R3</option>
+            </select>
+        </div>
+        <div class="mapping">
+            <label>R1:</label>
+            <select name="R1">
+                <option value="None">None</option>
+                <option value="D-Pad_Right">D-Pad Right</option>
+                <option value="D-Pad_Down">D-Pad Down</option>
+                <option value="D-Pad_Up">D-Pad Up</option>
+                <option value="D-Pad_Left">D-Pad Left</option>
+                <option value="Square">Square</option>
+                <option value="Cross">Cross</option>
+                <option value="Circle">Circle</option>
+                <option value="Triangle">Triangle</option>
+                <option value="L1">L1</option>
+                <option value="R1" selected>R1</option>
+                <option value="L3">L3</option>
+                <option value="R3">R3</option>
+            </select>
+        </div>
+        <div class="mapping">
+            <label>L3:</label>
+            <select name="L3">
+                <option value="None">None</option>
+                <option value="D-Pad_Right">D-Pad Right</option>
+                <option value="D-Pad_Down">D-Pad Down</option>
+                <option value="D-Pad_Up">D-Pad Up</option>
+                <option value="D-Pad_Left">D-Pad Left</option>
+                <option value="Square">Square</option>
+                <option value="Cross">Cross</option>
+                <option value="Circle">Circle</option>
+                <option value="Triangle">Triangle</option>
+                <option value="L1">L1</option>
+                <option value="R1">R1</option>
+                <option value="L3" selected>L3</option>
+                <option value="R3">R3</option>
+            </select>
+        </div>
+        <div class="mapping">
+            <label>R3:</label>
+            <select name="R3">
+                <option value="None">None</option>
+                <option value="D-Pad_Right">D-Pad Right</option>
+                <option value="D-Pad_Down">D-Pad Down</option>
+                <option value="D-Pad_Up">D-Pad Up</option>
+                <option value="D-Pad_Left">D-Pad Left</option>
+                <option value="Square">Square</option>
+                <option value="Cross">Cross</option>
+                <option value="Circle">Circle</option>
+                <option value="Triangle">Triangle</option>
+                <option value="L1">L1</option>
+                <option value="R1">R1</option>
+                <option value="L3">L3</option>
+                <option value="R3" selected>R3</option>
+            </select>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        console.log('Script loaded');
+        document.getElementById('buttonForm').addEventListener('submit', async (e) => {
+            console.log('Form submission triggered');
+            e.preventDefault();
+            try {
+                const selects = document.querySelectorAll('select');
+                const mappings = {};
+                selects.forEach(select => {
+                    mappings[select.name] = select.value;
+                });
+                console.log('Sending JSON:', JSON.stringify({ mappings }));
+                const response = await fetch('/api/buttons', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mappings })
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const result = await response.json();
+                console.log('Received response:', result);
+                alert('Received: ' + JSON.stringify(result));
+            } catch (error) {
+                console.error('Error during submission:', error);
+                alert('Error: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>

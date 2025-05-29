@@ -6,6 +6,7 @@ import db
 import time
 import sqlite3
 
+
 class ControllerData:
     def __init__(self):
         self.right = False
@@ -37,6 +38,25 @@ class ControllerData:
 
         self.gamepad = vg.VX360Gamepad()
 
+        self.button_dict = {
+            'Right': 0,
+            'Down': 0,
+            'Up': 0,
+            'Left': 0,
+            'Square': 0,
+            'Cross': 0,
+            'Circle': 0,
+            'Triangle': 0,
+            'L1': 0,
+            'R1': 0,
+            'L3': 0,
+            'R3': 0,
+            'Share': 0,
+            'Options': 0,
+            'PS': 0,
+            'Touchpad': 0,
+        }
+
     def get_data(self, data: bytes):
         self.right = (data[0] & 0b10000000) > 0
         self.down = (data[0] & 0b01000000) > 0
@@ -58,8 +78,8 @@ class ControllerData:
         self.touchpad = (data[1] & 0b00000010) > 0
         self.ps_button = (data[1] & 0b00000001) > 0
 
-        self.L2 = int(data[2])+2**32
-        self.R2 = int(data[3])+2**32
+        self.L2 = int(data[2]) + 2 ** 32
+        self.R2 = int(data[3]) + 2 ** 32
 
         self.l_stick_x = int((int(data[4]) * 32767) / 127)
         self.l_stick_y = int((int(data[5]) * 32767) / 127)
@@ -69,76 +89,95 @@ class ControllerData:
     def emulate(self):
         if self.right:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_RIGHT)
+            self.button_dict['Right'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_RIGHT)
 
         if self.down:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_DOWN)
+            self.button_dict['Down'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_DOWN)
 
         if self.up:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_UP)
+            self.button_dict['Up'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_UP)
 
         if self.left:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_LEFT)
+            self.button_dict['Left'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_DPAD_LEFT)
 
         if self.square:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_X)
+            self.button_dict['Square'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_X)
 
         if self.cross:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_A)
+            self.button_dict['Cross'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_A)
 
         if self.circle:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_B)
+            self.button_dict['Circle'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_B)
 
         if self.triangle:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_Y)
+            self.button_dict['Triangle'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_Y)
 
         if self.L1:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_LEFT_SHOULDER)
+            self.button_dict['L1'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_LEFT_SHOULDER)
 
         if self.R1:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_RIGHT_SHOULDER)
+            self.button_dict['R1'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_RIGHT_SHOULDER)
 
         if self.L3:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_LEFT_THUMB)
+            self.button_dict['L3'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_LEFT_THUMB)
 
         if self.R3:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_RIGHT_THUMB)
+            self.button_dict['R3'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_RIGHT_THUMB)
 
         if self.share:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_BACK)
+            self.button_dict['Share'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_BACK)
 
         if self.options:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_START)
+            self.button_dict['Options'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_START)
 
         if self.ps_button or self.touchpad:
             self.gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_GUIDE)
+
+            if self.ps_button:
+                self.button_dict['PS'] += 1
+            elif self.touchpad:
+                self.button_dict['Touchpad'] += 1
         else:
             self.gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_GUIDE)
 
@@ -154,11 +193,8 @@ class ControllerData:
 
 db.connect("button_stats.db")
 db.create_database()
-db.update_button("Cross")
 
-
-
-ser = serial.Serial('COM4', 115200)
+ser = serial.Serial('COM3', 115200)
 controller = ControllerData()
 
 time.sleep(2)
@@ -187,21 +223,10 @@ try:
         x = ser.read(8)
 
         try:
-            # get the data and emulate on gamepad
             controller.get_data(x)
             controller.emulate()
         except ValueError:
             print("Invalid data received")
-
-        # print("Buttons:", x[0])
-        # print("Functional Buttons:", x[1])
-        # print("L2:", x[2])
-        # print("R2:", x[3])
-        # print("L Stick X axis:", x[4])
-        # print("L Stick Y axis:", x[5])
-        # print("R Stick X axis:", x[6])
-        # print("R Stick Y axis:", x[7])
-        # print()
 except KeyboardInterrupt:
     print("\nStopping...")
 except serial.SerialException as e:
@@ -210,4 +235,5 @@ finally:
     ser.close()
     controller.gamepad.reset()
     controller.gamepad.update()
+    db.update_buttons(controller.button_dict)
     print("Serial closed")

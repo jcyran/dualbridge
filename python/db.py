@@ -6,13 +6,14 @@ def connect(database_name):
     global conn
     conn = sqlite3.connect(database_name)
 
+
 def create_database():
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS button_stats (
-            id INTEGER PRIMARY KEY CHECK (id = 1),
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-            Rigth INTEGER DEFAULT 0,
+            Right INTEGER DEFAULT 0,
             Down INTEGER DEFAULT 0,
             Up INTEGER DEFAULT 0,
             Left INTEGER DEFAULT 0,
@@ -22,8 +23,6 @@ def create_database():
             Triangle INTEGER DEFAULT 0,
             L1 INTEGER DEFAULT 0,
             R1 INTEGER DEFAULT 0,
-            L2 INTEGER DEFAULT 0,
-            R2 INTEGER DEFAULT 0,
             L3 INTEGER DEFAULT 0,
             R3 INTEGER DEFAULT 0,
             Share INTEGER DEFAULT 0,
@@ -32,16 +31,19 @@ def create_database():
             Touchpad INTEGER DEFAULT 0
         )
     ''')
-    cursor.execute("INSERT OR IGNORE INTO button_stats (id) VALUES (1)")
+    cursor.execute("INSERT INTO button_stats DEFAULT VALUES")
     conn.commit()
 
-def update_button(button):
 
+def update_buttons(buttons: dict):
     cursor = conn.cursor()
-    cursor.execute(f'''
-            UPDATE button_stats
-            SET {button} = {button} + 1,
-                updated_at = ?
-            WHERE id = 1
-        ''', (datetime.now(),))
+
+    for button, value in buttons.items():
+        cursor.execute(f'''
+                UPDATE button_stats
+                SET {button} = {button} + {value},
+                    updated_at = ?
+                WHERE id = (SELECT MAX(id) FROM button_stats)
+            ''', (datetime.now(),))
+
     conn.commit()
