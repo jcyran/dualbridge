@@ -41,7 +41,7 @@ def update_buttons(buttons: dict):
     for button, value in buttons.items():
         cursor.execute(f'''
                 UPDATE button_stats
-                SET {button} = {button} + {value},
+                SET {button} = {value},
                     updated_at = ?
                 WHERE id = (SELECT MAX(id) FROM button_stats)
             ''', (datetime.now(),))
