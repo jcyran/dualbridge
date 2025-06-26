@@ -1,4 +1,4 @@
-# MyApp Installation Instructions
+# DualBridge Installation Instructions
 
 ## Prerequisites
 - Install the ViGEmBus driver: https://github.com/ViGEm/ViGEmBus/releases
