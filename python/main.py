@@ -1,10 +1,8 @@
-import datetime
-
 import serial
 import vgamepad as vg
 import db
 import time
-import sqlite3
+import yaml
 
 
 class ControllerData:
@@ -189,12 +187,25 @@ class ControllerData:
         self.gamepad.update()
 
 
+# Load environmental variables
+with open('dualbridge_config.yaml', 'r') as file:
+    config = yaml.safe_load(file)
+
+esp_port = config['ESP_PORT']
+esp_baudrate = config['ESP_BAUDRATE']
+
 # Initialization
 
 db.connect("button_stats.db")
 db.create_database()
 
-ser = serial.Serial('COM3', 115200)
+while True:
+    try:
+        ser = serial.Serial(esp_port, esp_baudrate)
+        break
+    except:
+        continue
+
 controller = ControllerData()
 
 time.sleep(2)
