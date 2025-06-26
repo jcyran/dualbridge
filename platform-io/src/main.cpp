@@ -2,12 +2,11 @@
 #include <ps5Controller.h>
 #include <WiFi.h>
 #include <ESPAsyncWebServer.h>
-#include <ArduinoJson.h>
 #include <SPIFFS.h>
 
 // WiFi credentials (modify as needed)
-const char* ssid = "ssid";
-const char* password = "password";
+const char* ssid = WIFI_SSID;
+const char* password = WIFI_PASSWORD;
 
 struct DualSenseSensors
 {
@@ -106,7 +105,7 @@ void setup()
 {
   Serial.begin(115200);
   SPIFFS.begin(true);
-  ps5.begin("24:a6:fa:8d:d3:4c"); // replace with MAC address of your controller
+  ps5.begin(DUALSENSE_MAC); // replace with MAC address of your controller
 
   while (!ps5.isConnected())
     delay(100);
